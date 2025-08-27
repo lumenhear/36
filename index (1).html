@@ -1,0 +1,897 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LUMEN Speech and Hearing Care — Premium Hearing & Speech Solutions</title>
+  <meta name="description" content="LUMEN provides expert audiology and speech-language services in Hisar, Haryana. Government-approved tests, hearing aids with EMI options, and personalized therapy.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Premium CSS with Glassmorphism, Animations, and Dark Mode */
+    :root {
+      --primary: #4f46e5;
+      --primary-dark: #4338ca;
+      --primary-light: #6366f1;
+      --accent: #f59e0b;
+      --accent-light: #fbbf24;
+      --dark: #1f2937;
+      --dark-2: #111827;
+      --light: #f9fafb;
+      --light-2: #f3f4f6;
+      --muted: #6b7280;
+      --success: #10b981;
+      --glass-bg: rgba(255, 255, 255, 0.1);
+      --glass-border: rgba(255, 255, 255, 0.2);
+      --text-primary: var(--dark);
+      --text-secondary: var(--muted);
+      --bg-primary: var(--light);
+      --bg-secondary: var(--light-2);
+      --card-bg: rgba(255, 255, 255, 0.8);
+      --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+      --neumorph-shadow: 10px 10px 20px rgba(0, 0, 0, 0.05), -10px -10px 20px rgba(255, 255, 255, 0.5);
+    }
+
+    [data-theme="dark"] {
+      --text-primary: var(--light);
+      --text-secondary: #d1d5db;
+      --bg-primary: var(--dark-2);
+      --bg-secondary: var(--dark);
+      --card-bg: rgba(30, 30, 40, 0.6);
+      --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+      --neumorph-shadow: 10px 10px 20px rgba(0, 0, 0, 0.3), -10px -10px 20px rgba(76, 76, 96, 0.2);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--text-primary);
+      background-color: var(--bg-primary);
+      line-height: 1.6;
+      transition: all 0.3s ease;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.2;
+    }
+
+    /* Glassmorphism effect */
+    .glass {
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+    }
+
+    /* Neumorphism effect */
+    .neumorph {
+      border-radius: 16px;
+      background: var(--card-bg);
+      box-shadow: var(--neumorph-shadow);
+      border: 1px solid transparent;
+    }
+
+    /* NAVBAR - Glassmorphism style */
+    .navbar {
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    .navbar.scrolled {
+      padding: 0.5rem 0;
+      background: rgba(79, 70, 229, 0.9);
+    }
+
+    .navbar-brand {
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      color: var(--text-primary) !important;
+    }
+
+    .navbar-brand img {
+      height: 40px;
+      transition: all 0.3s ease;
+    }
+
+    .navbar.scrolled .navbar-brand img {
+      height: 35px;
+    }
+
+    .nav-link {
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      color: var(--text-primary) !important;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 1rem;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      transition: width 0.3s ease;
+    }
+
+    .nav-link:hover::after,
+    .nav-link.active::after {
+      width: calc(100% - 2rem);
+    }
+
+    .cta-btn {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white !important;
+      font-weight: 600;
+      border-radius: 50px;
+      padding: 0.5rem 1.5rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: all 0.6s ease;
+    }
+
+    .cta-btn:hover::before {
+      left: 100%;
+    }
+
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(79, 70, 229, 0.4);
+    }
+
+    /* Theme toggle */
+    .theme-toggle {
+      background: var(--card-bg);
+      border: none;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: all 0.3s ease;
+      margin-left: 1rem;
+    }
+
+    .theme-toggle:hover {
+      transform: rotate(30deg);
+    }
+
+    /* HERO SECTION with Parallax */
+    .hero {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      padding: 8rem 0 6rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23ffffff' fill-opacity='0.1' d='M0,128L48,117.3C96,107,192,85,288,112C384,139,480,213,576,218.7C672,224,768,160,864,138.7C960,117,1056,139,1152,149.3C1248,160,1344,160,1392,160L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E") no-repeat bottom center;
+      background-size: cover;
+    }
+
+    .parallax-bg {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='2' fill='%23ffffff' fill-opacity='0.1'/%3E%3C/svg%3E");
+      background-size: 50px;
+      transform: translateZ(-10px) scale(2);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(to right, #fff, #fbbf24);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: fadeInUp 1s ease;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      max-width: 700px;
+      margin: 0 auto 2rem;
+      color: rgba(255, 255, 255, 0.9);
+      animation: fadeInUp 1s ease 0.2s forwards;
+      opacity: 0;
+    }
+
+    .hero .btn {
+      animation: fadeInUp 1s ease 0.4s forwards;
+      opacity: 0;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* SECTIONS */
+    .section {
+      padding: 6rem 0;
+      position: relative;
+    }
+
+    .section-title {
+      font-size: 2.8rem;
+      margin-bottom: 3rem;
+      position: relative;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(to right, var(--primary), var(--accent));
+      border-radius: 2px;
+    }
+
+    /* CARDS - Glassmorphism style */
+    .card {
+      border: none;
+      border-radius: 20px;
+      overflow: hidden;
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+      transition: all 0.4s ease;
+      height: 100%;
+      border: 1px solid transparent;
+      background-clip: padding-box;
+    }
+
+    .card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    }
+
+    /* SERVICE ICONS */
+    .service-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 70px;
+      height: 70px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 20px rgba(79, 70, 229, 0.2);
+    }
+
+    .card:hover .service-icon {
+      transform: rotate(15deg) scale(1.1);
+      box-shadow: 0 15px 30px rgba(79, 70, 229, 0.3);
+    }
+
+    /* TESTIMONIALS */
+    .testimonial-card {
+      border-left: 4px solid var(--accent);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .testimonial-card::before {
+      content: ''';
+      position: absolute;
+      top: -20px;
+      right: 20px;
+      font-size: 8rem;
+      color: var(--accent);
+      opacity: 0.1;
+      font-family: serif;
+      line-height: 1;
+    }
+
+    .testimonial-card .quote {
+      position: relative;
+      padding-left: 1.5rem;
+      z-index: 2;
+    }
+
+    /* CALL TO ACTION */
+    .cta-section {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      opacity: 0.1;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--dark);
+      color: white;
+      padding: 4rem 0 2rem;
+      position: relative;
+    }
+
+    footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(to right, var(--primary), var(--accent));
+    }
+
+    /* WHATSAPP BUTTON */
+    .whatsapp-btn {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: #25D366;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 0 10px 25px -5px rgba(37, 211, 102, 0.3);
+      z-index: 999;
+      transition: all 0.3s ease;
+      border: none;
+      animation: pulse 2s infinite;
+    }
+
+    .whatsapp-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 15px 30px -5px rgba(37, 211, 102, 0.4);
+      animation: none;
+    }
+
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+      }
+      70% {
+        box-shadow: 0 0 0 10px rgba(37, 211, 102, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+      }
+    }
+
+    /* ANIMATIONS */
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-15px); }
+      100% { transform: translateY(0px); }
+    }
+
+    .floating {
+      animation: float 4s ease-in-out infinite;
+      filter: drop-shadow(0 15px 15px rgba(0, 0, 0, 0.2));
+    }
+
+    /* Animate on scroll */
+    .animate {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease;
+    }
+
+    .animate.animated {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Parallax effect */
+    .parallax-element {
+      transition: transform 0.3s ease-out;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 992px) {
+      .hero h1 {
+        font-size: 2.8rem;
+      }
+      
+      .section {
+        padding: 5rem 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        padding: 6rem 0 4rem;
+      }
+      
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+      
+      .hero p {
+        font-size: 1.1rem;
+      }
+      
+      .section-title {
+        font-size: 2.2rem;
+      }
+      
+      .navbar-brand span {
+        display: none;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .hero {
+        padding: 5rem 0 3rem;
+      }
+      
+      .section {
+        padding: 4rem 0;
+      }
+      
+      .theme-toggle {
+        width: 40px;
+        height: 40px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="index.html">
+        <img src="assets/logo.png" alt="LUMEN Logo">
+        <span class="ms-2 d-none d-md-inline">LUMEN Speech & Hearing</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon"><i class="fas fa-bars"></i></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav ms-auto align-items-lg-center">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+          <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+          <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
+          <li class="nav-item ms-lg-2 mt-3 mt-lg-0"><a class="btn cta-btn nav-link" href="contact.html">Book Appointment</a></li>
+          <li class="nav-item ms-lg-2">
+            <button class="theme-toggle" id="theme-toggle">
+              <i class="fas fa-moon" id="theme-icon"></i>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="parallax-bg" data-parallax="scroll" data-image-src="" data-speed="0.2"></div>
+    <div class="container hero-content">
+      <div class="row align-items-center">
+        <div class="col-lg-6">
+          <h1>Empowering Better Communication & Hearing Health</h1>
+          <p class="mb-4">Expert audiology and speech-language services in Hisar. Government-approved tests, personalized therapy, and the latest hearing solutions.</p>
+          <div class="d-flex gap-3">
+            <a href="contact.html" class="btn btn-light btn-lg">Book Appointment</a>
+            <a href="tel:+919350158754" class="btn btn-outline-light btn-lg"><i class="fas fa-phone-alt me-2"></i> Call Now</a>
+          </div>
+        </div>
+        <div class="col-lg-6 d-none d-lg-block">
+          <img src="assets/hero-image.png" alt="Happy patient with audiologist" class="img-fluid floating">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES PREVIEW -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title text-center">Our Comprehensive Services</h2>
+      <p class="text-center mb-5 mx-auto" style="max-width: 700px;">We offer a full range of audiology and speech-language services for all ages, from newborn hearing screening to adult rehabilitation.</p>
+      
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-4">
+          <div class="card h-100 animate neumorph">
+            <div class="card-body p-4">
+              <div class="service-icon mb-4">
+                <i class="fas fa-headphones"></i>
+              </div>
+              <h3 class="h5">Hearing Assessment</h3>
+              <p class="text-muted">Comprehensive diagnostic tests including PTA, OAE, and BERA to accurately assess hearing function.</p>
+              <a href="services.html#pta" class="text-primary text-decoration-none fw-bold">Learn more <i class="fas fa-arrow-right ms-2"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="card h-100 animate neumorph">
+            <div class="card-body p-4">
+              <div class="service-icon mb-4">
+                <i class="fas fa-ear-deaf"></i>
+              </div>
+              <h3 class="h5">Hearing Aids</h3>
+              <p class="text-muted">Latest digital hearing technology with personalized fitting and EMI options available.</p>
+              <a href="services.html#hearing-aids" class="text-primary text-decoration-none fw-bold">Learn more <i class="fas fa-arrow-right ms-2"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="card h-100 animate neumorph">
+            <div class="card-body p-4">
+              <div class="service-icon mb-4">
+                <i class="fas fa-comments"></i>
+              </div>
+              <h3 class="h5">Speech Therapy</h3>
+              <p class="text-muted">Specialized programs for children and adults with speech, language, or voice disorders.</p>
+              <a href="services.html#speech" class="text-primary text-decoration-none fw-bold">Learn more <i class="fas fa-arrow-right ms-2"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-5">
+        <a href="services.html" class="btn btn-primary btn-lg px-5 py-3" style="background: linear-gradient(135deg, var(--primary), var(--primary-dark)); border: none;">View All Services</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY CHOOSE US -->
+  <section class="section bg-light">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6 mb-5 mb-lg-0">
+          <h2 class="section-title text-start">Why Choose LUMEN?</h2>
+          <p class="mb-4">We're committed to providing the highest quality care with a patient-centered approach.</p>
+          
+          <div class="d-flex mb-4">
+            <div class="me-4 text-primary">
+              <i class="fas fa-check-circle fa-2x"></i>
+            </div>
+            <div>
+              <h4 class="h5">Certified Professionals</h4>
+              <p class="text-muted mb-0">Our team consists of government-certified audiologists and speech-language pathologists.</p>
+            </div>
+          </div>
+
+          <div class="d-flex mb-4">
+            <div class="me-4 text-primary">
+              <i class="fas fa-check-circle fa-2x"></i>
+            </div>
+            <div>
+              <h4 class="h5">Advanced Technology</h4>
+              <p class="text-muted mb-0">We use the latest diagnostic equipment and hearing aid technology.</p>
+            </div>
+          </div>
+
+          <div class="d-flex mb-4">
+            <div class="me-4 text-primary">
+              <i class="fas fa-check-circle fa-2x"></i>
+            </div>
+            <div>
+              <h4 class="h5">Personalized Care</h4>
+              <p class="text-muted mb-0">Individualized treatment plans tailored to each patient's unique needs.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="position-relative parallax-element" data-parallax="scroll" data-speed="0.1">
+            <img src="assets/clinic-interior.jpg" alt="LUMEN Clinic Interior" class="img-fluid rounded shadow-lg">
+            <div class="position-absolute bottom-0 start-0 glass p-3 rounded m-3" style="max-width: 300px;">
+              <div class="d-flex align-items-center">
+                <div class="bg-primary text-white rounded-circle p-3 me-3">
+                  <i class="fas fa-calendar-check fa-lg"></i>
+                </div>
+                <div>
+                  <h5 class="mb-0">Ready to Help</h5>
+                  <p class="text-muted mb-0">Mon-Sat: 10AM - 6PM</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title text-center">Patient Experiences</h2>
+      <p class="text-center mb-5 mx-auto" style="max-width: 700px;">Hear what our patients say about their experience at LUMEN Speech & Hearing Care.</p>
+      
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="card testimonial-card h-100 animate glass">
+            <div class="card-body p-4">
+              <div class="mb-3 text-accent">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+              <p class="quote mb-4">"The staff at LUMEN were incredibly professional and caring. My child's speech has improved dramatically after just a few sessions."</p>
+              <div class="d-flex align-items-center">
+                <img src="assets/testimonial-1.jpg" alt="Patient" class="rounded-circle me-3" width="50" height="50">
+                <div>
+                  <h6 class="mb-0">Mrs. Sharma</h6>
+                  <small class="text-muted">Parent</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card testimonial-card h-100 animate glass">
+            <div class="card-body p-4">
+              <div class="mb-3 text-accent">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+              <p class="quote mb-4">"The hearing aid fitting was perfect, and the EMI option made it affordable for me. Excellent aftercare service too."</p>
+              <div class="d-flex align-items-center">
+                <img src="assets/testimonial-2.jpg" alt="Patient" class="rounded-circle me-3" width="50" height="50">
+                <div>
+                  <h6 class="mb-0">Mr. Patel</h6>
+                  <small class="text-muted">Hearing Aid User</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card testimonial-card h-100 animate glass">
+            <div class="card-body p-4">
+              <div class="mb-3 text-accent">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+              <p class="quote mb-4">"Very thorough hearing tests and clear explanations. The therapist spoke Hindi which made communication easy for my parents."</p>
+              <div class="d-flex align-items-center">
+                <img src="assets/testimonial-3.jpg" alt="Patient" class="rounded-circle me-3" width="50" height="50">
+                <div>
+                  <h6 class="mb-0">Ms. Gupta</h6>
+                  <small class="text-muted">Patient</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CALL TO ACTION -->
+  <section class="section cta-section">
+    <div class="container text-center">
+      <h2 class="text-white mb-4">Ready to Improve Your Hearing or Speech?</h2>
+      <p class="lead mb-5 mx-auto" style="max-width: 700px; opacity: 0.9;">Schedule your appointment today and take the first step towards better communication.</p>
+      <div class="d-flex justify-content-center gap-3 flex-wrap">
+        <a href="contact.html" class="btn btn-light btn-lg px-4 py-3">Book Appointment</a>
+        <a href="tel:+919350158754" class="btn btn-outline-light btn-lg px-4 py-3"><i class="fas fa-phone-alt me-2"></i> Call Now</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 mb-4 mb-lg-0">
+          <a class="navbar-brand d-flex align-items-center mb-3" href="index.html">
+            <img src="assets/logo-white.png" alt="LUMEN Logo" height="40">
+            <span class="ms-2">LUMEN Speech & Hearing</span>
+          </a>
+          <p>Providing expert audiology and speech-language services in Hisar, Haryana since 2023.</p>
+          <div class="social-links">
+            <a href="https://facebook.com/lumenhearingcare" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://instagram.com/lumenhearingcare" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://wa.me/919350158754" target="_blank"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+
+        <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+          <h5 class="mb-3">Quick Links</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2"><a href="index.html" class="text-white">Home</a></li>
+            <li class="mb-2"><a href="about.html" class="text-white">About Us</a></li>
+            <li class="mb-2"><a href="services.html" class="text-white">Services</a></li>
+            <li class="mb-2"><a href="blog.html" class="text-white">Blog</a></li>
+            <li class="mb-2"><a href="contact.html" class="text-white">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-3 col-md-4 mb-4 mb-md-0">
+          <h5 class="mb-3">Services</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2"><a href="services.html#pta" class="text-white">Hearing Tests</a></li>
+            <li class="mb-2"><a href="services.html#oae" class="text-white">Newborn Screening</a></li>
+            <li class="mb-2"><a href="services.html#hearing-aids" class="text-white">Hearing Aids</a></li>
+            <li class="mb-2"><a href="services.html#speech" class="text-white">Speech Therapy</a></li>
+            <li class="mb-2"><a href="services.html#voice" class="text-white">Voice Therapy</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-3 col-md-4">
+          <h5 class="mb-3">Contact Us</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2"><i class="fas fa-map-marker-alt me-2"></i> Hisar, Haryana</li>
+            <li class="mb-2"><i class="fas fa-phone-alt me-2"></i> <a href="tel:+919350158754" class="text-white">+91 93501 58754</a></li>
+            <li class="mb-2"><i class="fas fa-envelope me-2"></i> <a href="mailto:lumenhearingcare@gmail.com" class="text-white">lumenhearingcare@gmail.com</a></li>
+            <li class="mb-2"><i class="fas fa-clock me-2"></i> Mon-Sat: 10AM - 6PM</li>
+          </ul>
+        </div>
+      </div>
+
+      <hr class="my-4 bg-light opacity-10">
+
+      <div class="row align-items-center">
+        <div class="col-md-6 text-center text-md-start">
+          <p class="mb-0">&copy; 2023 LUMEN Speech & Hearing Care. All rights reserved.</p>
+        </div>
+        <div class="col-md-6 text-center text-md-end">
+          <p class="mb-0">Designed with <i class="fas fa-heart text-danger"></i> for better hearing</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- WHATSAPP BUTTON -->
+  <a href="https://wa.me/919350158754" target="_blank" class="whatsapp-btn">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+  <!-- JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Theme Toggle Functionality
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const html = document.documentElement;
+
+    // Check for saved theme preference or respect OS preference
+    const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    if (savedTheme === 'dark') {
+      html.setAttribute('data-theme', 'dark');
+      themeIcon.classList.replace('fa-moon', 'fa-sun');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = html.getAttribute('data-theme');
+      if (currentTheme === 'dark') {
+        html.removeAttribute('data-theme');
+        themeIcon.classList.replace('fa-sun', 'fa-moon');
+        localStorage.setItem('theme', 'light');
+      } else {
+        html.setAttribute('data-theme', 'dark');
+        themeIcon.classList.replace('fa-moon', 'fa-sun');
+        localStorage.setItem('theme', 'dark');
+      }
+    });
+
+    // Navbar scroll effect
+    window.addEventListener('scroll', function() {
+      const navbar = document.querySelector('.navbar');
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    // Animate on scroll
+    function animateOnScroll() {
+      const elements = document.querySelectorAll('.animate');
+      elements.forEach(element => {
+        const position = element.getBoundingClientRect();
+        if (position.top < window.innerHeight - 100) {
+          element.classList.add('animated');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', animateOnScroll);
+    window.addEventListener('load', animateOnScroll);
+
+    // Simple parallax effect
+    function parallaxEffect() {
+      const parallaxElements = document.querySelectorAll('.parallax-element');
+      parallaxElements.forEach(element => {
+        const speed = 0.1;
+        const yPos = -(window.pageYOffset * speed);
+        element.style.transform = `translateY(${yPos}px)`;
+      });
+    }
+
+    window.addEventListener('scroll', parallaxEffect);
+  </script>
+</body>
+</html>
