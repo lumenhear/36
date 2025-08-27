@@ -1,738 +1,538 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Design Studio</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+    <title>LUMEN Speech & Hearing - Cinematic Web Experience</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #6366f1;
-            --secondary: #8b5cf6;
-            --accent: #ec4899;
-            --text: #1f2937;
-            --bg: #f8fafc;
-            --card-bg: rgba(255, 255, 255, 0.8);
-            --glass-border: rgba(255, 255, 255, 0.2);
-            --shadow: rgba(0, 0, 0, 0.05);
-            --nav-bg: rgba(255, 255, 255, 0.8);
-            --gradient: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
+            --dark-bg: #0A0F1F;
+            --calm-blue: #1E293B;
+            --golden-yellow: #FFD700;
+            --neon-glow: #00BFFF;
+            --text-light: #E2E8F0;
+            --text-dark: #1E293B;
         }
 
-        .dark-mode {
-            --text: #f3f4f6;
-            --bg: #0f172a;
-            --card-bg: rgba(30, 41, 59, 0.5);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --shadow: rgba(0, 0, 0, 0.2);
-            --nav-bg: rgba(15, 23, 42, 0.8);
+        html.dark {
+            background-color: var(--dark-bg);
+            color: var(--text-light);
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            transition: background-color 0.3s, color 0.3s;
+        
+        html.light {
+            background-color: #F1F5F9;
+            color: var(--text-dark);
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            color: var(--text);
-            background: var(--bg);
             overflow-x: hidden;
-            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        .container {
+        .glass-card {
+            background: rgba(30, 41, 59, 0.3);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        html.light .glass-card {
+            background: rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-10px) perspective(1000px) rotateX(2deg) rotateY(2deg);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .neon-glow-text {
+            text-shadow: 0 0 5px var(--neon-glow), 0 0 10px var(--neon-glow), 0 0 20px var(--neon-glow);
+        }
+
+        .golden-glow-text {
+            text-shadow: 0 0 5px var(--golden-yellow), 0 0 10px var(--golden-yellow);
+        }
+        
+        .pulse-glow {
+            animation: pulse-glow 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 10px var(--golden-yellow), 0 0 20px var(--golden-yellow); }
+            50% { box-shadow: 0 0 20px var(--golden-yellow), 0 0 40px var(--golden-yellow); }
+        }
+        
+        .cursor-ripple {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--neon-glow);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+        }
+
+        .sound-wave-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.2;
         }
 
-        /* Header & Navigation */
-        header {
+        .liquid-transition {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-            background: var(--nav-bg);
-            box-shadow: 0 4px 12px var(--shadow);
+            width: 100vw;
+            height: 100vh;
+            background: var(--calm-blue);
+            z-index: 10000;
+            transform: scaleY(0);
+            transform-origin: bottom;
         }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 30px;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--text);
-            font-weight: 500;
-            position: relative;
-        }
-
-        .nav-links a:after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--gradient);
-            transition: width 0.3s;
-        }
-
-        .nav-links a:hover:after {
-            width: 100%;
-        }
-
-        .theme-toggle {
-            background: var(--gradient);
-            width: 50px;
-            height: 26px;
-            border-radius: 50px;
-            position: relative;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            padding: 0 5px;
-        }
-
-        .toggle-circle {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: white;
-            transition: transform 0.3s;
-        }
-
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            padding-top: 80px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-content {
-            width: 50%;
-            z-index: 2;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            margin-bottom: 20px;
-            line-height: 1.2;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-            color: var(--text);
-            opacity: 0.9;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 15px 30px;
-            background: var(--gradient);
-            color: white;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
-        }
-
-        .hero-image {
-            position: absolute;
-            right: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 50%;
-            height: 80%;
-            background: var(--gradient);
-            border-radius: 30px 0 0 30px;
-            opacity: 0.8;
-            filter: blur(20px);
-            z-index: 1;
-        }
-
-        /* Features Grid */
-        .features {
-            padding: 100px 0;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 60px;
-            font-weight: 700;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .feature-card {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 8px 32px var(--shadow);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 12px 40px var(--shadow);
-        }
-
-        .feature-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-            background: var(--gradient);
-            color: white;
-            font-size: 1.5rem;
-        }
-
-        .feature-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-        }
-
-        /* Portfolio Grid */
-        .portfolio {
-            padding: 100px 0;
-            background: var(--gradient);
-            background-attachment: fixed;
-            color: white;
-            position: relative;
-        }
-
-        .portfolio::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(5px);
-        }
-
-        .portfolio .section-title {
-            color: white;
-            position: relative;
-        }
-
-        .portfolio-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            position: relative;
-        }
-
-        .portfolio-item {
-            height: 300px;
-            border-radius: 20px;
-            overflow: hidden;
-            position: relative;
-            cursor: pointer;
-        }
-
-        .portfolio-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s;
-        }
-
-        .portfolio-item:hover .portfolio-img {
-            transform: scale(1.1);
-        }
-
-        .portfolio-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            padding: 20px;
-            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .portfolio-item:hover .portfolio-overlay {
-            opacity: 1;
-        }
-
-        /* Testimonials */
-        .testimonials {
-            padding: 100px 0;
-        }
-
-        .testimonial-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .testimonial-card {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 8px 32px var(--shadow);
-        }
-
-        .testimonial-text {
-            font-style: italic;
-            margin-bottom: 20px;
-            position: relative;
-        }
-
-        .testimonial-text::before {
-            content: '"';
-            font-size: 4rem;
-            position: absolute;
-            top: -20px;
-            left: -10px;
-            opacity: 0.1;
-            color: var(--primary);
-        }
-
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-        }
-
-        .author-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: var(--gradient);
-            margin-right: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-        }
-
-        /* Footer */
-        footer {
-            background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            padding: 50px 0;
-            border-top: 1px solid var(--glass-border);
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-        }
-
-        .footer-column h3 {
-            margin-bottom: 20px;
-            font-size: 1.2rem;
-        }
-
-        .footer-links {
-            list-style: none;
-        }
-
-        .footer-links li {
-            margin-bottom: 10px;
-        }
-
-        .footer-links a {
-            text-decoration: none;
-            color: var(--text);
-            transition: color 0.3s;
-        }
-
-        .footer-links a:hover {
-            color: var(--primary);
-        }
-
-        .social-links {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .social-links a {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--gradient);
-            color: white;
-            text-decoration: none;
-            transition: transform 0.3s;
-        }
-
-        .social-links a:hover {
-            transform: translateY(-5px);
-        }
-
-        .copyright {
-            text-align: center;
-            margin-top: 50px;
-            padding-top: 20px;
-            border-top: 1px solid var(--glass-border);
-        }
-
-        /* Responsive Design */
-        @media (max-width: 992px) {
-            .hero-content {
-                width: 100%;
-                text-align: center;
-            }
-            
-            .hero-image {
-                display: none;
-            }
-            
-            .hero h1 {
-                font-size: 2.8rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-            
-            .hero h1 {
-                font-size: 2.2rem;
-            }
-            
-            .section-title {
-                font-size: 2rem;
-            }
+        
+        html.light .liquid-transition {
+             background: #E2E8F0;
         }
     </style>
 </head>
-<body>
-    <header>
-        <div class="container">
-            <nav>
-                <div class="logo">LUMINA</div>
-                <div class="nav-links">
-                    <a href="#">Home</a>
-                    <a href="#">Work</a>
-                    <a href="#">Services</a>
-                    <a href="#">About</a>
-                    <a href="#">Contact</a>
-                </div>
-                <div class="theme-toggle" id="themeToggle">
-                    <div class="toggle-circle"></div>
-                </div>
-            </nav>
-        </div>
+<body class="antialiased relative">
+
+    <div class="cursor-ripple"></div>
+    <div class="liquid-transition"></div>
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 p-4 md:p-6 transition-all duration-300">
+        <nav class="container mx-auto flex justify-between items-center glass-card rounded-full px-6 py-3">
+            <div id="logo-container" class="flex items-center space-x-3 cursor-pointer">
+                <svg id="lumen-logo" width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-yellow-400">
+                    <path d="M6 9.5C6 13.6421 9.35786 17 13.5 17C17.6421 17 21 13.6421 21 9.5C21 5.35786 17.6421 2 13.5 2C9.35786 2 6 5.35786 6 9.5ZM6 9.5V14.5C6 18.6421 9.35786 22 13.5 22C17.6421 22 21 18.6421 21 14.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M13.5 17C11.567 17 10 15.433 10 13.5C10 11.567 11.567 10 13.5 10C15.433 10 17 11.567 17 13.5C17 14.5734 16.5734 15.5734 16 16.2426" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span class="font-bold text-xl tracking-wider">LUMEN</span>
+            </div>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="#services" class="hover:text-yellow-400 transition-colors">Services</a>
+                <a href="#why-lumen" class="hover:text-yellow-400 transition-colors">Why LUMEN</a>
+                <a href="#contact" class="hover:text-yellow-400 transition-colors">Contact</a>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button id="lang-toggle" class="text-sm font-semibold border px-3 py-1 rounded-full hover:bg-yellow-400 hover:text-black transition-all">EN / हिं</button>
+                <button id="theme-toggle" class="p-2 rounded-full glass-card">
+                    <i data-lucide="sun" class="hidden dark-icon"></i>
+                    <i data-lucide="moon" class="light-icon"></i>
+                </button>
+            </div>
+        </nav>
     </header>
 
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1>Transform Your Digital Presence With Elegance</h1>
-                <p>We craft premium digital experiences that captivate your audience and elevate your brand to new heights.</p>
-                <a href="#" class="btn">Explore Our Work</a>
-            </div>
+    <!-- Hero Section -->
+    <section id="hero" class="h-screen flex items-center justify-center text-center relative overflow-hidden">
+        <canvas id="sound-wave-canvas" class="sound-wave-canvas"></canvas>
+        <div class="z-10">
+            <h1 id="hero-headline" class="text-5xl md:text-8xl font-extrabold tracking-tighter opacity-0">
+                <span class="golden-glow-text">Hear</span> the Future.
+            </h1>
+            <h1 id="hero-headline-2" class="text-5xl md:text-8xl font-extrabold tracking-tighter opacity-0 mt-4">
+                <span class="neon-glow-text">Speak</span> with Confidence.
+            </h1>
+            <p id="hero-tagline" class="mt-8 text-lg md:text-xl max-w-2xl mx-auto opacity-0">Professional hearing & speech care, guided with empathy.</p>
+            <a href="#appointment" id="hero-cta" class="mt-12 inline-block bg-yellow-400 text-black font-bold py-3 px-8 rounded-full text-lg hover:bg-yellow-300 transition-all pulse-glow opacity-0">Book an Appointment</a>
         </div>
-        <div class="hero-image"></div>
     </section>
 
-    <section class="features">
-        <div class="container">
-            <h2 class="section-title">Our Premium Services</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-paint-brush"></i>
+    <!-- Services Section -->
+    <section id="services" class="py-20 md:py-32 container mx-auto px-4">
+        <h2 class="text-4xl md:text-6xl font-bold text-center mb-16 section-title">Our Services</h2>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Service Cards will be injected here by JS -->
+        </div>
+    </section>
+
+    <!-- AVT & Speech Therapy Section -->
+    <section id="avt" class="py-20 md:py-32 relative overflow-hidden">
+         <div class="container mx-auto px-4 grid md:grid-cols-2 gap-16 items-center">
+            <div>
+                <h2 class="text-4xl md:text-6xl font-bold mb-8 section-title">Auditory Verbal &<br>Speech Therapy</h2>
+                <p class="mb-6 text-lg text-gray-400">We empower children and adults to develop listening and spoken language skills. Our therapy is personalized, playful, and proven to deliver results.</p>
+                <div class="space-y-4">
+                    <div class="testimonial-bubble self-start bg-blue-900/30 p-4 rounded-lg rounded-bl-none max-w-md">
+                        <p>"LUMEN changed our lives. My daughter's confidence has soared since starting AVT."</p>
+                        <span class="text-xs text-yellow-400 block text-right mt-2">- A Happy Parent</span>
                     </div>
-                    <h3>UI/UX Design</h3>
-                    <p>Beautiful interfaces with intuitive user experiences that drive engagement and conversion.</p>
+                    <div class="testimonial-bubble self-end bg-gray-700/30 p-4 rounded-lg rounded-br-none max-w-md ml-auto">
+                        <p>"The therapists are incredibly patient and skilled. Highly recommended!"</p>
+                        <span class="text-xs text-yellow-400 block text-right mt-2">- Grateful Patient</span>
+                    </div>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <h3>Web Development</h3>
-                    <p>Robust, scalable web applications with cutting-edge technology and premium performance.</p>
+            </div>
+            <div class="relative h-96">
+                <!-- Playful micro-animations placeholder -->
+                <div class="absolute top-10 left-10 animate-bounce">
+                    <i data-lucide="headphones" class="w-16 h-16 text-yellow-400"></i>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <h3>Mobile Apps</h3>
-                    <p>Stunning mobile experiences that feel native and deliver exceptional performance.</p>
+                <div class="absolute bottom-10 right-10 animate-pulse">
+                     <i data-lucide="message-circle" class="w-20 h-20 text-blue-400"></i>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <h3>Digital Strategy</h3>
-                    <p>Data-driven strategies that align with your business goals and maximize ROI.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-bullhorn"></i>
-                    </div>
-                    <h3>Brand Marketing</h3>
-                    <p>Comprehensive branding solutions that tell your story and connect with your audience.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-rocket"></i>
-                    </div>
-                    <h3>Rapid Deployment</h3>
-                    <p>Quick turnaround without compromising on quality or attention to detail.</p>
+                 <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                     <i data-lucide="toy-brick" class="w-24 h-24 text-red-400 -rotate-12"></i>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="portfolio">
-        <div class="container">
-            <h2 class="section-title">Featured Work</h2>
-            <div class="portfolio-grid">
-                <div class="portfolio-item">
-                    <div class="portfolio-img" style="background: linear-gradient(45deg, #6366f1, #ec4899);"></div>
-                    <div class="portfolio-overlay">
-                        <h3>Elegance Redefined</h3>
-                        <p>Branding & Web Design</p>
+    <!-- Why LUMEN Section -->
+    <section id="why-lumen" class="py-20 md:py-32">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-4xl md:text-6xl font-bold mb-16 section-title">Why Trust LUMEN</h2>
+            <div class="grid md:grid-cols-3 gap-12">
+                <div class="trust-badge glass-card p-8 rounded-2xl">
+                    <div class="p-4 bg-yellow-400/10 rounded-full inline-block mb-4">
+                        <i data-lucide="award" class="w-12 h-12 text-yellow-400"></i>
                     </div>
+                    <h3 class="text-2xl font-bold mb-2">Certified Professionals</h3>
+                    <p class="text-gray-400">Our team consists of RCI registered audiologists and speech therapists.</p>
                 </div>
-                <div class="portfolio-item">
-                    <div class="portfolio-img" style="background: linear-gradient(45deg, #8b5cf6, #6366f1);"></div>
-                    <div class="portfolio-overlay">
-                        <h3>Nova Architecture</h3>
-                        <p>UI/UX & Development</p>
+                <div class="trust-badge glass-card p-8 rounded-2xl">
+                    <div class="p-4 bg-blue-400/10 rounded-full inline-block mb-4">
+                        <i data-lucide="microscope" class="w-12 h-12 text-blue-400"></i>
                     </div>
+                    <h3 class="text-2xl font-bold mb-2">Advanced Technology</h3>
+                    <p class="text-gray-400">We use state-of-the-art equipment for accurate diagnosis and treatment.</p>
                 </div>
-                <div class="portfolio-item">
-                    <div class="portfolio-img" style="background: linear-gradient(45deg, #ec4899, #8b5cf6);"></div>
-                    <div class="portfolio-overlay">
-                        <h3>Lumina App</h3>
-                        <p>Mobile Application</p>
+                <div class="trust-badge glass-card p-8 rounded-2xl">
+                    <div class="p-4 bg-green-400/10 rounded-full inline-block mb-4">
+                        <i data-lucide="heart-handshake" class="w-12 h-12 text-green-400"></i>
                     </div>
+                    <h3 class="text-2xl font-bold mb-2">Empathetic Care</h3>
+                    <p class="text-gray-400">We listen to your needs and provide compassionate, personalized care.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="testimonials">
-        <div class="container">
-            <h2 class="section-title">Client Testimonials</h2>
-            <div class="testimonial-cards">
-                <div class="testimonial-card">
-                    <div class="testimonial-text">
-                        <p>The team at Lumina transformed our online presence completely. The attention to detail and creative solutions exceeded our expectations.</p>
-                    </div>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">SA</div>
+    <!-- Appointment Section -->
+    <section id="appointment" class="py-20 md:py-32">
+        <div class="container mx-auto px-4 max-w-3xl text-center">
+            <h2 class="text-4xl md:text-6xl font-bold mb-8 section-title">Ready to Begin Your Journey?</h2>
+            <p class="text-lg text-gray-400 mb-12">Take the first step towards better hearing and clearer speech. Book your consultation today.</p>
+            <div class="flex flex-col md:flex-row gap-4 justify-center">
+                <a href="tel:+919350158754" class="cta-button group relative inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-blue-600 rounded-full overflow-hidden transition-all duration-300 hover:bg-blue-700">
+                    <i data-lucide="phone" class="w-5 h-5 mr-3"></i> Call Us
+                </a>
+                <a href="https://wa.me/919350158754" target="_blank" class="cta-button group relative inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-black bg-green-400 rounded-full overflow-hidden transition-all duration-300 hover:bg-green-500">
+                    <i data-lucide="message-circle" class="w-5 h-5 mr-3"></i> WhatsApp
+                </a>
+                <a href="#contact" class="cta-button group relative inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-black bg-yellow-400 rounded-full overflow-hidden transition-all duration-300 hover:bg-yellow-500 pulse-glow">
+                    <i data-lucide="calendar" class="w-5 h-5 mr-3"></i> Book Online
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact & Footer -->
+    <footer id="contact" class="py-20 md:py-32 bg-calm-blue/20 relative">
+        <div class="container mx-auto px-4 grid md:grid-cols-2 gap-16">
+            <div>
+                <h2 class="text-4xl font-bold mb-8">Visit Us</h2>
+                <div class="space-y-6">
+                    <div class="location-card glass-card p-6 rounded-lg flex items-start space-x-4">
+                        <i data-lucide="map-pin" class="w-8 h-8 text-yellow-400 mt-1"></i>
                         <div>
-                            <h4>Sarah Johnson</h4>
-                            <p>CEO, Nova Industries</p>
+                            <h3 class="text-xl font-semibold">Hisar</h3>
+                            <p class="text-gray-400">123 Health St, Hisar, Haryana</p>
+                        </div>
+                    </div>
+                    <div class="location-card glass-card p-6 rounded-lg flex items-start space-x-4">
+                        <i data-lucide="map-pin" class="w-8 h-8 text-yellow-400 mt-1"></i>
+                        <div>
+                            <h3 class="text-xl font-semibold">Hansi</h3>
+                            <p class="text-gray-400">456 Wellness Ave, Hansi, Haryana</p>
+                        </div>
+                    </div>
+                    <div class="location-card glass-card p-6 rounded-lg flex items-start space-x-4">
+                        <i data-lucide="map-pin" class="w-8 h-8 text-yellow-400 mt-1"></i>
+                        <div>
+                            <h3 class="text-xl font-semibold">Bhiwani</h3>
+                            <p class="text-gray-400">789 Care Blvd, Bhiwani, Haryana</p>
                         </div>
                     </div>
                 </div>
-                <div class="testimonial-card">
-                    <div class="testimonial-text">
-                        <p>Working with Lumina was a game-changer for our brand. Their innovative approach and technical expertise delivered exceptional results.</p>
-                    </div>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">MR</div>
-                        <div>
-                            <h4>Michael Rodriguez</h4>
-                            <p>Marketing Director, TechVision</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card">
-                    <div class="testimonial-text">
-                        <p>The premium quality of work and professional service we received was outstanding. Our conversion rates increased by 140% after the redesign.</p>
-                    </div>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">EJ</div>
-                        <div>
-                            <h4>Emily Jackson</h4>
-                            <p>Founder, Elegance Boutique</p>
-                        </div>
-                    </div>
+            </div>
+            <div>
+                <h2 class="text-4xl font-bold mb-8">Connect With Us</h2>
+                <p class="text-gray-400 mb-6">Follow our journey and stay updated.</p>
+                 <a href="https://instagram.com/lumenhearingcare" target="_blank" class="inline-flex items-center space-x-3 text-lg hover:text-yellow-400 transition-colors">
+                    <i data-lucide="instagram" class="w-8 h-8"></i>
+                    <span>@lumenhearingcare</span>
+                </a>
+                <div class="mt-8">
+                    <p class="text-lg font-semibold mb-2">Contact:</p>
+                    <a href="tel:+919350158754" class="text-yellow-400 text-2xl font-bold hover:underline">+91 9350158754</a>
                 </div>
             </div>
         </div>
-    </section>
-
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-column">
-                    <h3>LUMINA</h3>
-                    <p>Creating premium digital experiences that leave a lasting impression.</p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#"><i class="fab fa-dribbble"></i></a>
-                    </div>
-                </div>
-                <div class="footer-column">
-                    <h3>Services</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">UI/UX Design</a></li>
-                        <li><a href="#">Web Development</a></li>
-                        <li><a href="#">Mobile Apps</a></li>
-                        <li><a href="#">Digital Strategy</a></li>
-                        <li><a href="#">Branding</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Company</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Careers</a></li>
-                        <li><a href="#">Case Studies</a></li>
-                          <li><a href="#">Blog</a></li>
-                        <li><a href="#">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Contact</h3>
-                    <ul class="footer-links">
-                        <li><i class="fas fa-map-marker-alt"></i> 123 Design Street, Creative City</li>
-                        <li><i class="fas fa-phone"></i> +1 (234) 567-8900</li>
-                        <li><i class="fas fa-envelope"></i> hello@lumina.com</li>
-                    </ul>
-                </div>
+        <div class="mt-20 pt-10 border-t border-white/10 text-center text-gray-500">
+            <div id="footer-logo-container" class="flex justify-center items-center space-x-3 mb-4 cursor-pointer">
+                 <svg id="footer-lumen-logo" width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-yellow-400">
+                    <path d="M6 9.5C6 13.6421 9.35786 17 13.5 17C17.6421 17 21 13.6421 21 9.5C21 5.35786 17.6421 2 13.5 2C9.35786 2 6 5.35786 6 9.5ZM6 9.5V14.5C6 18.6421 9.35786 22 13.5 22C17.6421 22 21 18.6421 21 14.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M13.5 17C11.567 17 10 15.433 10 13.5C10 11.567 11.567 10 13.5 10C15.433 10 17 11.567 17 13.5C17 14.5734 16.5734 15.5734 16 16.2426" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span class="font-bold text-xl tracking-wider text-white">LUMEN</span>
             </div>
-            <div class="copyright">
-                <p>&copy; 2023 Lumina Design Studio. All rights reserved.</p>
-            </div>
+            <p>&copy; 2024 LUMEN Speech & Hearing. All Rights Reserved.</p>
         </div>
     </footer>
 
-    <script>
-        // Dark/Light Mode Toggle
-        const themeToggle = document.getElementById('themeToggle');
-        const body = document.body;
-        
-        // Check for saved theme preference
-        if (localStorage.getItem('theme') === 'dark') {
-            body.classList.add('dark-mode');
-            themeToggle.querySelector('.toggle-circle').style.transform = 'translateX(24px)';
-        }
-        
-        themeToggle.addEventListener('click', () => {
-            body.classList.toggle('dark-mode');
-            
-            if (body.classList.contains('dark-mode')) {
-                localStorage.setItem('theme', 'dark');
-                themeToggle.querySelector('.toggle-circle').style.transform = 'translateX(24px)';
-            } else {
-                localStorage.setItem('theme', 'light');
-                themeToggle.querySelector('.toggle-circle').style.transform = 'translateX(0)';
-            }
-        });
 
-        // GSAP Animations
-        gsap.registerPlugin(ScrollTrigger);
-        
-        // Hero animation
-        gsap.from('.hero-content', {
-            duration: 1,
-            y: 50,
-            opacity: 0,
-            ease: 'power3.out'
-        });
-        
-        // Feature cards animation
-        gsap.from('.feature-card', {
-            scrollTrigger: {
-                trigger: '.features',
-                start: 'top 80%'
-            },
-            duration: 0.8,
-            y: 30,
-            opacity: 0,
-            stagger: 0.1,
-            ease: 'power2.out'
-        });
-        
-        // Portfolio items animation
-        gsap.from('.portfolio-item', {
-            scrollTrigger: {
-                trigger: '.portfolio',
-                start: 'top 80%'
-            },
-            duration: 0.8,
-            y: 40,
-            opacity: 0,
-            stagger: 0.2,
-            ease: 'power2.out'
-        });
-        
-        // Testimonial cards animation
-        gsap.from('.testimonial-card', {
-            scrollTrigger: {
-                trigger: '.testimonials',
-                start: 'top 80%'
-            },
-            duration: 0.8,
-            y: 30,
-            opacity: 0,
-            stagger: 0.2,
-            ease: 'power2.out'
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            lucide.createIcons();
+            gsap.registerPlugin(ScrollTrigger);
+
+            // --- DATA ---
+            const services = [
+                { icon: 'ear', name: 'PTA' },
+                { icon: 'activity', name: 'Impedance Audiometry' },
+                { icon: 'waveform', name: 'OAE' },
+                { icon: 'brain-circuit', name: 'BERA' },
+                { icon: 'bone', name: 'BC ABR' },
+                { icon: 'baby', name: 'CHOGHG' },
+                { icon: 'hearing', name: 'Hearing Aid Fitting' },
+                { icon: 'wrench', name: 'Hearing Aid Service' },
+                { icon: 'message-square', name: 'Speech Therapy' },
+                { icon: 'graduation-cap', name: 'AVT' },
+            ];
+
+            // --- RENDER SERVICES ---
+            const servicesContainer = document.querySelector('#services .grid');
+            services.forEach(service => {
+                const serviceEl = document.createElement('div');
+                serviceEl.className = 'service-card glass-card p-8 rounded-2xl text-center';
+                serviceEl.innerHTML = `
+                    <div class="icon-container inline-block p-4 bg-blue-500/10 rounded-full mb-6 transition-all duration-300">
+                        <i data-lucide="${service.icon}" class="w-10 h-10 text-blue-400 transition-all duration-300"></i>
+                    </div>
+                    <h3 class="text-xl font-bold">${service.name}</h3>
+                `;
+                servicesContainer.appendChild(serviceEl);
+            });
+            lucide.createIcons(); // Re-run for new icons
+
+            // --- THEME TOGGLE ---
+            const themeToggle = document.getElementById('theme-toggle');
+            const liquidTransition = document.querySelector('.liquid-transition');
+            themeToggle.addEventListener('click', () => {
+                gsap.to(liquidTransition, {
+                    duration: 0.7,
+                    scaleY: 1,
+                    transformOrigin: 'bottom',
+                    ease: 'power3.inOut',
+                    onComplete: () => {
+                        document.documentElement.classList.toggle('dark');
+                        document.documentElement.classList.toggle('light');
+                        gsap.to(liquidTransition, {
+                            duration: 0.7,
+                            scaleY: 0,
+                            transformOrigin: 'top',
+                            ease: 'power3.inOut'
+                        });
+                    }
+                });
+            });
+
+            // --- CURSOR RIPPLE ---
+            const ripple = document.querySelector('.cursor-ripple');
+            document.addEventListener('mousemove', (e) => {
+                gsap.to(ripple, {
+                    x: e.clientX,
+                    y: e.clientY,
+                    duration: 0.1,
+                    ease: 'power2.out'
+                });
+            });
+            document.addEventListener('mousedown', () => {
+                gsap.to(ripple, {
+                    scale: 1.5,
+                    opacity: 1,
+                    duration: 0.3
+                });
+            });
+            document.addEventListener('mouseup', () => {
+                gsap.to(ripple, {
+                    scale: 1,
+                    opacity: 0,
+                    duration: 0.3
+                });
+            });
+
+            // --- HERO ANIMATIONS ---
+            const heroTimeline = gsap.timeline({ delay: 0.5 });
+            heroTimeline .to('#hero-headline', { opacity: 1, y: -20, duration: 1, ease: 'power3.out' })
+                .to('#hero-headline-2', { opacity: 1, y: -20, duration: 1, ease: 'power3.out' }, "-=0.7")
+                .to('#hero-tagline', { opacity: 1, y: -10, duration: 0.8, ease: 'power2.out' }, "-=0.5")
+                .to('#hero-cta', { opacity: 1, scale: 1, duration: 0.8, ease: 'back.out(1.7)' }, "-=0.4");
+
+            // --- SCROLL-BASED ANIMATIONS ---
+            gsap.utils.toArray('.section-title').forEach(title => {
+                gsap.from(title, {
+                    scrollTrigger: {
+                        trigger: title,
+                        start: 'top 80%',
+                        toggleActions: 'play none none none'
+                    },
+                    opacity: 0,
+                    y: 50,
+                    duration: 1,
+                    ease: 'power3.out'
+                });
+            });
+
+            gsap.utils.toArray('.service-card').forEach((card, i) => {
+                gsap.from(card, {
+                    scrollTrigger: {
+                        trigger: card,
+                        start: 'top 85%',
+                        toggleActions: 'play none none none'
+                    },
+                    opacity: 0,
+                    y: 60,
+                    duration: 0.8,
+                    delay: i * 0.1,
+                    ease: 'power3.out'
+                });
+            });
+            
+            gsap.utils.toArray('.testimonial-bubble').forEach(bubble => {
+                gsap.from(bubble, {
+                    scrollTrigger: {
+                        trigger: bubble,
+                        start: 'top 80%',
+                    },
+                    opacity: 0,
+                    x: bubble.classList.contains('self-start') ? -50 : 50,
+                    duration: 1,
+                    ease: 'power3.out'
+                });
+            });
+
+            gsap.utils.toArray('.trust-badge').forEach((badge, i) => {
+                gsap.from(badge, {
+                    scrollTrigger: {
+                        trigger: badge,
+                        start: 'top 80%',
+                    },
+                    opacity: 0,
+                    y: 50,
+                    scale: 0.9,
+                    duration: 1,
+                    delay: i * 0.2,
+                    ease: 'back.out(1.4)'
+                });
+            });
+
+            // --- HERO PARALLAX ---
+            gsap.to('#hero > div', {
+                scrollTrigger: {
+                    trigger: '#hero',
+                    start: 'top top',
+                    scrub: true
+                },
+                y: 200,
+                scale: 0.9,
+                opacity: 0
+            });
+
+            // --- LOGO EASTER EGG ---
+            let clickCount = 0;
+            const logoContainer = document.getElementById('logo-container');
+            logoContainer.addEventListener('click', () => {
+                clickCount++;
+                if (clickCount === 3) {
+                    // Simple console log for now, can be replaced with particle animation
+                    console.log("Easter egg triggered!");
+                    gsap.to('#lumen-logo', {
+                        rotate: 360,
+                        scale: 1.5,
+                        duration: 0.5,
+                        ease: 'back.inOut(1.7)',
+                        onComplete: () => gsap.to('#lumen-logo', { scale: 1, duration: 0.3 })
+                    });
+                    clickCount = 0;
+                }
+                setTimeout(() => { clickCount = 0; }, 1000); // Reset after 1 second
+            });
+            
+            // --- FOOTER LOGO PULSE ---
+            gsap.to('#footer-lumen-logo', {
+                scale: 1.1,
+                duration: 2,
+                repeat: -1,
+                yoyo: true,
+                ease: 'power1.inOut'
+            });
+
+
+            // --- SOUND WAVE CANVAS ANIMATION ---
+            const canvas = document.getElementById('sound-wave-canvas');
+            const ctx = canvas.getContext('2d');
+            let w, h, analyzer, bufferLength, dataArray;
+            let time = 0;
+
+            function resize() {
+                w = canvas.width = window.innerWidth;
+                h = canvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resize);
+            resize();
+
+            function animate() {
+                requestAnimationFrame(animate);
+                ctx.clearRect(0, 0, w, h);
+                
+                time += 0.01;
+
+                for (let j = 0; j < 3; j++) {
+                    ctx.beginPath();
+                    const gradient = ctx.createLinearGradient(0, 0, w, 0);
+                    if (j === 0) gradient.addColorStop(0, 'rgba(255, 215, 0, 0.3)');
+                    if (j === 1) gradient.addColorStop(0, 'rgba(0, 191, 255, 0.4)');
+                    if (j === 2) gradient.addColorStop(0, 'rgba(30, 41, 59, 0.2)');
+                    gradient.addColorStop(1, 'rgba(30, 41, 59, 0)');
+                    ctx.strokeStyle = gradient;
+                    ctx.lineWidth = 2 + j;
+
+                    for (let i = 0; i < w; i++) {
+                        const y = h / 2 + Math.sin(i * 0.02 + time + j * 0.5) * 50 * Math.sin(time * 0.5 + j) * (1 - i/w) * (i/w) * 10;
+                        if (i === 0) {
+                            ctx.moveTo(i, y);
+                        } else {
+                            ctx.lineTo(i, y);
+                        }
+                    }
+                    ctx.stroke();
+                }
+            }
+            animate();
         });
     </script>
 </body>
 </html>
+           
